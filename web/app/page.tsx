@@ -1,7 +1,5 @@
-function formatDateTime(date: string, time: string) {
-  const [year, month, day] = date.split("-");
-  return `${day}/${month}/${year} às ${time}`;
-}
+import { AppointmentCard } from "@/components/AppointmentCard";
+import { mockAppointments } from "@/lib/mock-appointments";
 
 export default function Home() {
   return (
@@ -17,35 +15,9 @@ export default function Home() {
       </header>
 
       <section className="flex flex-col gap-4" aria-label="Lista de agendamentos">
-        <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900">Ana Silva</h2>
-          <p className="text-slate-600">Consulta inicial</p>
-          <p className="text-sm text-slate-500">
-            <time dateTime="2026-07-08T14:30">
-              {formatDateTime("2026-07-08", "14:30")}
-            </time>
-          </p>
-        </article>
-
-        <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900">Bruno Costa</h2>
-          <p className="text-slate-600">Retorno</p>
-          <p className="text-sm text-slate-500">
-            <time dateTime="2026-07-09T10:00">
-              {formatDateTime("2026-07-09", "10:00")}
-            </time>
-          </p>
-        </article>
-
-        <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900">Carla Mendes</h2>
-          <p className="text-slate-600">Avaliação</p>
-          <p className="text-sm text-slate-500">
-            <time dateTime="2026-07-10T16:00">
-              {formatDateTime("2026-07-10", "16:00")}
-            </time>
-          </p>
-        </article>
+        {mockAppointments.map((appointment) => (
+          <AppointmentCard key={appointment.id} {...appointment} />
+        ))}
       </section>
     </main>
   );

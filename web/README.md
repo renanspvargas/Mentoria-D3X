@@ -1,27 +1,19 @@
-# Etapa 06 — Lista estática no Next.js
+# Etapa 07 — Componente AppointmentCard
 
 ## Problema
 
-Precisamos de uma estrutura profissional com roteamento, padrão de mercado e ferramentas integradas (TypeScript, lint, build). O vanilla funciona, mas não escala para um produto real com múltiplas páginas e deploy.
+O JSX repetido na `page.tsx` fica difícil de manter — cada alteração visual no card exige editar o mesmo bloco várias vezes. Precisamos isolar o card em um componente reutilizável com props tipadas.
 
 ## Solução
 
-Esta branch cria o projeto Next.js em `web/` com App Router, TypeScript e Tailwind. A `page.tsx` exibe a mesma lista de 3 agendamentos mock do vanilla, com markup JSX e classes utilitárias Tailwind no lugar de CSS puro.
-
-### CSS puro vs Tailwind
-
-| Vanilla (`styles.css`) | Next.js (Tailwind) |
-|------------------------|-------------------|
-| `.appointment-card { padding: 1.25rem; ... }` | `className="rounded-xl border p-5 shadow-sm"` |
-| Arquivo CSS separado | Classes inline no JSX |
-| Reutilização via seletores | Reutilização via composição de classes |
+Esta branch introduz o type `Appointment` em `types/appointment.ts`, o componente `AppointmentCard` com props tipadas, e extrai os dados mock para `lib/mock-appointments.ts`. A `page.tsx` fica enxuta: importa o array e renderiza com `.map()`.
 
 ## Arquivos principais
 
-- `app/page.tsx` — lista estática de 3 agendamentos
-- `app/layout.tsx` — layout raiz e metadados
-- `app/globals.css` — import do Tailwind e estilos base
-- `package.json` — dependências e scripts
+- `types/appointment.ts` — type `Appointment` com campos tipados
+- `components/AppointmentCard.tsx` — componente visual do card
+- `lib/mock-appointments.ts` — 3 agendamentos mock consistentes
+- `app/page.tsx` — lista usando `.map()` e `<AppointmentCard />`
 
 ## Como rodar
 
@@ -31,20 +23,18 @@ npm install
 npm run dev
 ```
 
-Abra [http://localhost:3000](http://localhost:3000). Se a porta estiver ocupada: `npm run dev -- -p 3001`.
-
 ## Checkpoint
 
-- [ ] `localhost:3000` mostra título "Agendamentos" e 3 cards
-- [ ] Visual consistente com a versão vanilla (cards com borda e sombra)
-- [ ] Botão "Agendar" visível (sem ação ainda)
+- [ ] `page.tsx` enxuta — sem JSX de card repetido
+- [ ] `AppointmentCard` isolado e reutilizável
+- [ ] TypeScript valida props do componente
 
 ## Próxima etapa
 
-`feat/07-next-componente` — extrair card para `AppointmentCard.tsx` com tipagem TypeScript.
+`feat/08-next-estado` — adicionar `useState` e botão que insere agendamento na lista.
 
 ## Para o Next
 
-- JSX repetido na page será refatorado em componente na próxima etapa
-- `formatDateTime` pode ser extraído para util compartilhado
-- Botão "Agendar" ganhará `useState` na `feat/08`
+- `"use client"` será necessário na `feat/08` para `useState`
+- Mock hardcoded vira estado inicial do `useState`
+- Modal e formulário virão nas branches 10–11
