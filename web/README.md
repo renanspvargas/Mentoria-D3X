@@ -1,18 +1,17 @@
-# Etapa 10 — Modal de agendamento
+# Etapa 11 — Validação de formulário
 
 ## Problema
 
-Adicionar via botão com dados hardcoded não é UX real — o usuário precisa preencher nome, serviço, data, horário e observações.
+O formulário aceita dados inválidos — campos vazios ou horário mal formatado são salvos sem feedback ao usuário.
 
 ## Solução
 
-Esta branch cria `AppointmentModal` com `<dialog>` nativo (`showModal()` / `close()`), formulário controlado com `useState`, e submit que monta `Appointment` com `crypto.randomUUID()` e chama `addAppointment` do hook. A `page.tsx` remove o handler hardcoded.
+Esta branch adiciona `validate-appointment.ts` com regras mínimas (campos obrigatórios, `time` no formato `HH:MM`) e integra erros por campo no `AppointmentModal`. Submit inválido bloqueia o salvamento e exibe mensagens abaixo dos inputs.
 
 ## Arquivos principais
 
-- `components/AppointmentModal.tsx` — dialog nativo + formulário
-- `app/page.tsx` — botão "Agendar" abre modal via componente
-- `hooks/useAppointments.ts` — `addAppointment()` chamado no submit
+- `lib/validate-appointment.ts` — `validateAppointment()` e `hasErrors()`
+- `components/AppointmentModal.tsx` — estado de erros, borda vermelha, mensagens
 
 ## Como rodar
 
@@ -22,18 +21,17 @@ npm install
 npm run dev
 ```
 
-Clique em "Agendar", preencha o formulário e salve — card aparece e persiste (feat/09).
+Tente salvar com campos vazios — erros aparecem. Preencha corretamente — salva e persiste.
 
 ## Checkpoint
 
-- [ ] Modal abre ao clicar "Agendar"
-- [ ] Preencher e salvar adiciona card na lista
-- [ ] F5 mantém o agendamento (localStorage da feat/09)
-- [ ] Cancelar ou ✕ fecha o modal sem salvar
+- [ ] Submit vazio mostra erros em nome, serviço, data e horário
+- [ ] Horário inválido mostra mensagem de formato
+- [ ] Dados válidos salvam normalmente e persistem (feat/09)
 
 ## Próxima etapa
 
-`feat/11-next-validacao` — validar campos obrigatórios antes de salvar.
+`feat/12-next-calendario` — substituir input de data por `react-day-picker`.
 
 ## Desafios extras
 

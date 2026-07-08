@@ -1,6 +1,11 @@
 "use client";
 
 import { useRef, useState } from "react";
+import {
+  hasErrors,
+  validateAppointment,
+  type AppointmentFormErrors,
+} from "@/lib/validate-appointment";
 import type { Appointment } from "@/types/appointment";
 
 type AppointmentModalProps = {
@@ -18,6 +23,7 @@ const emptyForm = {
 export function AppointmentModal({ onSubmit }: AppointmentModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [form, setForm] = useState(emptyForm);
+  const [errors, setErrors] = useState<AppointmentFormErrors>({});
 
   function open() {
     dialogRef.current?.showModal();
@@ -26,6 +32,7 @@ export function AppointmentModal({ onSubmit }: AppointmentModalProps) {
   function close() {
     dialogRef.current?.close();
     setForm(emptyForm);
+    setErrors({});
   }
 
   function handleChange(
@@ -33,18 +40,32 @@ export function AppointmentModal({ onSubmit }: AppointmentModalProps) {
   ) {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+
+    if (errors[name as keyof AppointmentFormErrors]) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[name as keyof AppointmentFormErrors];
+        return next;
+      });
+    }
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
+    const validationErrors = validateAppointment(form);
+    if (hasErrors(validationErrors)) {
+      setErrors(validationErrors);
+      return;
+    }
+
     const appointment: Appointment = {
       id: crypto.randomUUID(),
-      clientName: form.clientName,
-      service: form.service,
+      clientName: form.clientName.trim(),
+      service: form.service.trim(),
       date: form.date,
       time: form.time,
-      notes: form.notes || undefined,
+      notes: form.notes.trim() || undefined,
     };
 
     onSubmit(appointment);
@@ -89,8 +110,15 @@ export function AppointmentModal({ onSubmit }: AppointmentModalProps) {
               name="clientName"
               value={form.clientName}
               onChange={handleChange}
-              className="rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className={`rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-1 ${
+                errors.clientName
+                  ? "border-red-400 focus:border-red-500 focus:ring-red-500"
+                  : "border-slate-300 focus:border-blue-500 focus:ring-blue-500"
+              }`}
             />
+            {errors.clientName && (
+              <span className="text-xs text-red-600">{errors.clientName}</span>
+            )}
           </label>
 
           <label className="flex flex-col gap-1">
@@ -100,8 +128,15 @@ export function AppointmentModal({ onSubmit }: AppointmentModalProps) {
               name="service"
               value={form.service}
               onChange={handleChange}
-              className="rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className={`rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-1 ${
+                errors.service
+                  ? "border-red-400 focus:border-red-500 focus:ring-red-500"
+                  : "border-slate-300 focus:border-blue-500 focus:ring-blue-500"
+              }`}
             />
+            {errors.service && (
+              <span className="text-xs text-red-600">{errors.service}</span>
+            )}
           </label>
 
           <label className="flex flex-col gap-1">
@@ -111,8 +146,15 @@ export function AppointmentModal({ onSubmit }: AppointmentModalProps) {
               name="date"
               value={form.date}
               onChange={handleChange}
-              className="rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className={`rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-1 ${
+                errors.date
+                  ? "border-red-400 focus:border-red-500 focus:ring-red-500"
+                  : "border-slate-300 focus:border-blue-500 focus:ring-blue-500"
+              }`}
             />
+            {errors.date && (
+              <span className="text-xs text-red-600">{errors.date}</span>
+            )}
           </label>
 
           <label className="flex flex-col gap-1">
@@ -122,8 +164,15 @@ export function AppointmentModal({ onSubmit }: AppointmentModalProps) {
               name="time"
               value={form.time}
               onChange={handleChange}
-              className="rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className={`rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-1 ${
+                errors.time
+                  ? "border-red-400 focus:border-red-500 focus:ring-red-500"
+                  : "border-slate-300 focus:border-blue-500 focus:ring-blue-500"
+              }`}
             />
+            {errors.time && (
+              <span className="text-xs text-red-600">{errors.time}</span>
+            )}
           </label>
 
           <label className="flex flex-col gap-1">
