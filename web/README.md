@@ -1,19 +1,20 @@
-# Etapa 07 — Componente AppointmentCard
+# Etapa 08 — Lista dinâmica com useState
 
 ## Problema
 
-O JSX repetido na `page.tsx` fica difícil de manter — cada alteração visual no card exige editar o mesmo bloco várias vezes. Precisamos isolar o card em um componente reutilizável com props tipadas.
+A lista estática não reflete mudanças do usuário — o botão "Agendar" não faz nada. Precisamos de **estado** no React: quando os dados mudam, a interface re-renderiza automaticamente sem manipular o DOM manualmente.
 
 ## Solução
 
-Esta branch introduz o type `Appointment` em `types/appointment.ts`, o componente `AppointmentCard` com props tipadas, e extrai os dados mock para `lib/mock-appointments.ts`. A `page.tsx` fica enxuta: importa o array e renderiza com `.map()`.
+Esta branch adiciona `"use client"` na `page.tsx` (necessário para hooks no App Router), `useState<Appointment[]>` inicializado com o mock, e um handler no botão "Agendar" que adiciona um agendamento hardcoded via `setAppointments`. Demonstra re-render automático ao mudar estado.
+
+> **Nota:** `"use client"` marca o componente como Client Component — obrigatório para usar `useState`, `useEffect` e event handlers no Next.js App Router.
 
 ## Arquivos principais
 
-- `types/appointment.ts` — type `Appointment` com campos tipados
-- `components/AppointmentCard.tsx` — componente visual do card
-- `lib/mock-appointments.ts` — 3 agendamentos mock consistentes
-- `app/page.tsx` — lista usando `.map()` e `<AppointmentCard />`
+- `app/page.tsx` — `"use client"`, `useState` e botão com `onClick`
+- `components/AppointmentCard.tsx` — sem alterações (recebe props do estado)
+- `lib/mock-appointments.ts` — valor inicial do estado
 
 ## Como rodar
 
@@ -23,18 +24,20 @@ npm install
 npm run dev
 ```
 
+Clique em "Agendar" — um novo card aparece na lista sem recarregar a página.
+
 ## Checkpoint
 
-- [ ] `page.tsx` enxuta — sem JSX de card repetido
-- [ ] `AppointmentCard` isolado e reutilizável
-- [ ] TypeScript valida props do componente
+- [ ] Clicar "Agendar" adiciona card "Novo Cliente" na lista
+- [ ] Lista atualiza instantaneamente (sem F5)
+- [ ] Estado reseta ao recarregar a página (persistência vem na feat/09)
 
 ## Próxima etapa
 
-`feat/08-next-estado` — adicionar `useState` e botão que insere agendamento na lista.
+`feat/09-next-localstorage` — persistir estado com `localStorage` ou hook customizado.
 
 ## Para o Next
 
-- `"use client"` será necessário na `feat/08` para `useState`
-- Mock hardcoded vira estado inicial do `useState`
-- Modal e formulário virão nas branches 10–11
+- Modal com formulário na `feat/10`
+- Validação de campos na `feat/11`
+- O padrão `setAppointments(prev => [...prev, novo])` será usado no submit do modal
