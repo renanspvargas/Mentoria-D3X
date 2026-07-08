@@ -1,3 +1,5 @@
+const STORAGE_KEY = "agendamentos-d3x";
+
 const modal = document.getElementById("appointment-modal");
 const form = document.getElementById("appointment-form");
 const listContainer = document.getElementById("appointments-list");
@@ -5,7 +7,7 @@ const btnOpen = document.getElementById("btn-open-modal");
 const btnClose = document.getElementById("btn-close-modal");
 const btnCancel = document.getElementById("btn-cancel");
 
-let appointments = [
+const SEED_APPOINTMENTS = [
   {
     id: "1",
     clientName: "Ana Silva",
@@ -28,6 +30,22 @@ let appointments = [
     time: "16:00",
   },
 ];
+
+let appointments = [];
+
+function loadAppointments() {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored) {
+    appointments = JSON.parse(stored);
+  } else {
+    appointments = [...SEED_APPOINTMENTS];
+    saveAppointments();
+  }
+}
+
+function saveAppointments() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(appointments));
+}
 
 function formatDateTime(date, time) {
   const [year, month, day] = date.split("-");
@@ -76,6 +94,7 @@ function handleSubmit(event) {
   };
 
   appointments.push(newAppointment);
+  saveAppointments();
   renderAppointments();
   closeModal();
 }
@@ -85,4 +104,7 @@ btnClose.addEventListener("click", closeModal);
 btnCancel.addEventListener("click", closeModal);
 form.addEventListener("submit", handleSubmit);
 
-document.addEventListener("DOMContentLoaded", renderAppointments);
+document.addEventListener("DOMContentLoaded", () => {
+  loadAppointments();
+  renderAppointments();
+});

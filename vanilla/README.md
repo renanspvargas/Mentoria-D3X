@@ -1,35 +1,35 @@
-# Etapa 03 — Lista dinâmica com JavaScript
+# Etapa 04 — Persistência com localStorage
 
 ## Problema
 
-Gerenciar muitos elementos com `getElementById` individual vira bagunça — cada card novo exigiria referências separadas no HTML. Além disso, o modal abre mas não salva nada: precisamos de uma fonte de dados em memória e uma função que redesenha a lista inteira.
+Os dados ficam apenas em memória: ao recarregar a página (F5), todos os agendamentos adicionados pelo usuário desaparecem. Precisamos de uma forma simples de persistir dados no navegador sem backend.
 
 ## Solução
 
-Esta branch introduz um array `appointments` em memória, remove os cards duplicados do HTML e centraliza a renderização em `renderAppointments()`. Ao submeter o formulário, um novo objeto é criado, adicionado ao array, a lista é re-renderizada e o modal fecha.
+Esta branch adiciona `loadAppointments()` e `saveAppointments()` usando `localStorage` com a chave `agendamentos-d3x`. Ao iniciar, carrega do storage; se vazio, faz seed com os 3 agendamentos mock. Após cada adição, salva automaticamente.
 
 ## Arquivos principais
 
-- `index.html` — container `#appointments-list` vazio; cards gerados pelo JS
-- `app.js` — array de dados, `renderAppointments()` e handler de submit
-- `styles.css` — estilos herdados das etapas anteriores
+- `app.js` — funções `loadAppointments()` / `saveAppointments()` e integração no fluxo
+- `index.html` — sem alterações estruturais
+- `styles.css` — sem alterações
 
 ## Como rodar
 
-Abra `vanilla/index.html` no navegador. Clique em "Agendar", preencha o formulário e salve.
+Abra `vanilla/index.html` no navegador. Adicione um agendamento, recarregue a página (F5) e verifique que os dados permanecem.
 
 ## Checkpoint
 
-- [ ] Ao carregar, os 3 agendamentos mock aparecem na lista
-- [ ] Adicionar agendamento pelo modal cria um card novo sem editar HTML
-- [ ] Formulário limpa e modal fecha após salvar
+- [ ] Primeira visita mostra os 3 agendamentos mock
+- [ ] Adicionar agendamento e recarregar (F5) mantém todos os dados
+- [ ] Dados visíveis em DevTools → Application → Local Storage
 
 ## Próxima etapa
 
-`feat/04-js-localstorage` — persistir agendamentos no `localStorage` para sobreviver ao F5.
+`feat/05-react-conceito` — demonstrar componentes React reutilizáveis via CDN, sem alterar o vanilla.
 
 ## Para o Next
 
-- O array `appointments` vira `useState` na `feat/08`
-- `renderAppointments()` com `.map()` é o equivalente ao JSX com componentes
-- `crypto.randomUUID()` para IDs será mantido no Next
+- `localStorage` será reimplementado com hook na `feat/09`
+- O padrão load/save vira sincronização de estado com efeito colateral
+- Chave `agendamentos-d3x` pode ser reutilizada para compatibilidade
