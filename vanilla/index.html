@@ -10,7 +10,7 @@
   <main class="container">
     <header class="header">
       <h1>Agendamentos</h1>
-      <button type="button" class="btn-primary">Agendar</button>
+      <button type="button" id="btn-open-modal" class="btn-primary">Agendar</button>
     </header>
 
     <section class="appointments-list" aria-label="Lista de agendamentos">
@@ -39,5 +39,46 @@
       </article>
     </section>
   </main>
+
+  <dialog id="appointment-modal" class="modal">
+    <form method="dialog" class="modal-content">
+      <header class="modal-header">
+        <h2>Novo agendamento</h2>
+        <button type="button" id="btn-close-modal" class="btn-close" aria-label="Fechar">&times;</button>
+      </header>
+
+      <div class="form-group">
+        <label for="client-name">Nome do cliente</label>
+        <input type="text" id="client-name" name="clientName" required>
+      </div>
+
+      <div class="form-group">
+        <label for="service">Serviço</label>
+        <input type="text" id="service" name="service" required>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Data</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+
+      <div class="form-group">
+        <label for="time">Horário</label>
+        <input type="time" id="time" name="time" required>
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Observações</label>
+        <textarea id="notes" name="notes" rows="3"></textarea>
+      </div>
+
+      <footer class="modal-footer">
+        <button type="button" id="btn-cancel" class="btn-secondary">Cancelar</button>
+        <button type="submit" class="btn-primary">Salvar</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
 </body>
 </html>

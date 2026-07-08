@@ -1,33 +1,35 @@
-# Etapa 01 — HTML e CSS estático
+# Etapa 02 — Modal com JavaScript
 
 ## Problema
 
-O site é apenas um documento estático. Para adicionar um novo agendamento, é preciso editar o HTML manualmente — copiar um card inteiro e alterar nome, serviço e horário. Isso não escala e não permite que o usuário final interaja com a página.
+O site ainda é estático: o botão "Agendar" não faz nada. Para dar o primeiro passo de interatividade, precisamos responder a eventos do usuário (clique) e manipular elementos da página — neste caso, abrir e fechar um formulário em modal.
 
 ## Solução
 
-Esta branch introduz a estrutura visual base: uma página com título "Agendamentos", três cards estáticos com dados mock e um botão "Agendar" (ainda sem ação). O layout usa CSS puro com container centralizado, cards com borda e sombra, e tipografia legível.
+Esta branch adiciona um `<dialog>` com formulário (nome, serviço, data, horário, observações) e o arquivo `app.js` com funções `openModal()` e `closeModal()` ligadas aos botões "Agendar", "Fechar" e "Cancelar". O submit ainda não salva dados.
 
 ## Arquivos principais
 
-- `index.html` — estrutura da página e os 3 cards de agendamento
-- `styles.css` — layout, tipografia e estilos dos cards e botão
+- `index.html` — estrutura do modal e campos do formulário
+- `app.js` — event listeners para abrir/fechar o modal
+- `styles.css` — estilos do overlay, modal centralizado e formulário
 
 ## Como rodar
 
-Abra `vanilla/index.html` diretamente no navegador (duplo clique ou arraste para uma aba).
+Abra `vanilla/index.html` no navegador. Clique em "Agendar" para abrir o modal.
 
 ## Checkpoint
 
-- [ ] Abrir `index.html` no navegador e ver 3 cards estilizados com nome, serviço e data/horário
-- [ ] Botão "Agendar" visível no topo (sem ação ainda)
+- [ ] Clicar "Agendar" abre o modal com o formulário
+- [ ] Clicar "Cancelar", "×" ou fora do modal fecha o modal
+- [ ] Os 3 cards estáticos continuam visíveis na lista
 
 ## Próxima etapa
 
-`feat/02-js-modal-abrir` — adicionar JavaScript para abrir e fechar um modal ao clicar em "Agendar".
+`feat/03-js-lista-dinamica` — ao submeter o formulário, criar um novo card na lista via JavaScript.
 
 ## Para o Next
 
-- A estrutura de cards será replicada em JSX na `feat/06`
-- Classes CSS virão a ser substituídas por utilitários Tailwind
-- O botão "Agendar" ganhará interatividade antes da migração
+- O modal será recriado com `<dialog>` nativo na `feat/10`
+- Event listeners viram handlers React (`onClick`)
+- O formulário controlado substituirá `getElementById` individual
