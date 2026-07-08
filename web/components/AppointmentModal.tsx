@@ -1,6 +1,9 @@
 "use client";
 
+import { format, parse } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { useRef, useState } from "react";
+import { DayPicker } from "react-day-picker";
 import {
   hasErrors,
   validateAppointment,
@@ -45,6 +48,25 @@ export function AppointmentModal({ onSubmit }: AppointmentModalProps) {
       setErrors((prev) => {
         const next = { ...prev };
         delete next[name as keyof AppointmentFormErrors];
+        return next;
+      });
+    }
+  }
+
+  const selectedDate = form.date
+    ? parse(form.date, "yyyy-MM-dd", new Date())
+    : undefined;
+
+  function handleDateSelect(date: Date | undefined) {
+    setForm((prev) => ({
+      ...prev,
+      date: date ? format(date, "yyyy-MM-dd") : "",
+    }));
+
+    if (errors.date) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next.date;
         return next;
       });
     }
@@ -139,23 +161,25 @@ export function AppointmentModal({ onSubmit }: AppointmentModalProps) {
             )}
           </label>
 
-          <label className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1">
             <span className="text-sm font-medium text-slate-700">Data</span>
-            <input
-              type="date"
-              name="date"
-              value={form.date}
-              onChange={handleChange}
-              className={`rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-1 ${
-                errors.date
-                  ? "border-red-400 focus:border-red-500 focus:ring-red-500"
-                  : "border-slate-300 focus:border-blue-500 focus:ring-blue-500"
+            <div
+              className={`rounded-lg border p-2 ${
+                errors.date ? "border-red-400" : "border-slate-300"
               }`}
-            />
+            >
+              <DayPicker
+                mode="single"
+                selected={selectedDate}
+                onSelect={handleDateSelect}
+                locale={ptBR}
+                className="mx-auto"
+              />
+            </div>
             {errors.date && (
               <span className="text-xs text-red-600">{errors.date}</span>
             )}
-          </label>
+          </div>
 
           <label className="flex flex-col gap-1">
             <span className="text-sm font-medium text-slate-700">Horário</span>

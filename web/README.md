@@ -1,17 +1,18 @@
-# Etapa 11 — Validação de formulário
+# Etapa 12 — Calendário com react-day-picker
 
 ## Problema
 
-O formulário aceita dados inválidos — campos vazios ou horário mal formatado são salvos sem feedback ao usuário.
+O `<input type="date">` nativo é limitado — visual inconsistente entre navegadores e pouca flexibilidade de UX.
 
 ## Solução
 
-Esta branch adiciona `validate-appointment.ts` com regras mínimas (campos obrigatórios, `time` no formato `HH:MM`) e integra erros por campo no `AppointmentModal`. Submit inválido bloqueia o salvamento e exibe mensagens abaixo dos inputs.
+Esta branch substitui o input de data por `DayPicker` do `react-day-picker`, com `date-fns` para formatar a seleção como `YYYY-MM-DD` (compatível com `Appointment.date`). Estilos importados em `globals.css`.
 
 ## Arquivos principais
 
-- `lib/validate-appointment.ts` — `validateAppointment()` e `hasErrors()`
-- `components/AppointmentModal.tsx` — estado de erros, borda vermelha, mensagens
+- `components/AppointmentModal.tsx` — `DayPicker` no lugar do input de data
+- `app/globals.css` — `@import "react-day-picker/style.css"`
+- `package.json` — `react-day-picker` e `date-fns`
 
 ## Como rodar
 
@@ -21,17 +22,20 @@ npm install
 npm run dev
 ```
 
-Tente salvar com campos vazios — erros aparecem. Preencha corretamente — salva e persiste.
+Abra o modal, selecione uma data no calendário, preencha os demais campos e salve.
 
 ## Checkpoint
 
-- [ ] Submit vazio mostra erros em nome, serviço, data e horário
-- [ ] Horário inválido mostra mensagem de formato
-- [ ] Dados válidos salvam normalmente e persistem (feat/09)
+- [ ] Calendário renderiza no modal
+- [ ] Selecionar data preenche o campo corretamente
+- [ ] Agendamento salva com data no formato `YYYY-MM-DD`
+- [ ] `npm run build` passa sem erros
 
-## Próxima etapa
+## Próximas etapas planejadas
 
-`feat/12-next-calendario` — substituir input de data por `react-day-picker`.
+- `feat/13` — rotas com App Router
+- `feat/14` — dashboard com métricas
+- Backend NestJS em repositório separado (módulo 10+)
 
 ## Desafios extras
 

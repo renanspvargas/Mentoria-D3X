@@ -1,6 +1,6 @@
 # Mentoria D3X — Sistema de Agendamentos
 
-Repositório de referência para a mentoria D3X: evolução progressiva de um sistema de agendamentos, do HTML/CSS estático até Next.js com estado e persistência.
+Repositório de referência para a mentoria D3X: evolução progressiva de um sistema de agendamentos, do HTML/CSS estático até Next.js com estado, persistência, modal e calendário.
 
 ## Sobre o projeto
 
@@ -22,8 +22,9 @@ Cada branch contém **todo o código anterior + o tijolo novo**. Use `git checko
 | `feat/07-next-componente` | `AppointmentCard` tipado com TypeScript |
 | `feat/08-next-estado` | Lista dinâmica com `useState` |
 | `feat/09-next-localstorage` | localStorage + hook + componentização |
-
-**Planejadas (ciclo futuro):** `feat/10` modal, `feat/11` validação, `feat/12` calendário.
+| `feat/10-next-modal` | Modal com formulário (`<dialog>`) |
+| `feat/11-next-validacao` | Validação de campos obrigatórios |
+| `feat/12-next-calendario` | Seleção de data com `react-day-picker` |
 
 > A pasta `vanilla/` existia nas branches `feat/01`–`feat/08`. A partir da `feat/09` o repositório contém apenas `web/`. Para ver o código vanilla: `git checkout feat/01-html-css-estatico` … `feat/08-next-estado`.
 
@@ -32,7 +33,7 @@ Cada branch contém **todo o código anterior + o tijolo novo**. Use `git checko
 1. Clone este repositório ou crie o seu próprio no GitHub seguindo as mesmas branches.
 2. `git checkout feat/01-html-css-estatico` (ou qualquer branch da tabela).
 3. Leia o `README.md` da pasta da etapa (`vanilla/` ou `web/`).
-4. Compare branches com `git diff feat/08-next-estado..feat/09-next-localstorage`.
+4. Compare branches com `git diff feat/11-next-validacao..feat/12-next-calendario`.
 
 ## Estrutura
 
@@ -41,4 +42,13 @@ Cada branch contém **todo o código anterior + o tijolo novo**. Use `git checko
 └── obejtivo.md  # Documento original da mentoria
 ```
 
-Para o roadmap completo, veja a branch `docs/planejamento` e `docs/PLANEJAMENTO.md`.
+## Roadmap
+
+Para decisões de arquitetura e módulos futuros, veja a branch `docs/planejamento` e [`docs/PLANEJAMENTO.md`](docs/PLANEJAMENTO.md) (disponível nessa branch).
+
+**Próximos módulos planejados:**
+
+- `feat/13` — rotas com App Router
+- `feat/14` — dashboard com métricas
+- `feat/15` — área privada / autenticação
+- Backend NestJS em repositório separado (módulo 10+)
