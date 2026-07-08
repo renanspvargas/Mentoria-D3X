@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React — Conceito de Componentes</title>
+  <link rel="stylesheet" href="styles.css">
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h1>Agendamentos (React)</h1>
+      <p style="color: #64748b; margin: 0;">Demonstração de componentes — sem build</p>
+    </header>
+    <div id="root" class="appointments-list"></div>
+  </main>
+
+  <script type="text/babel">
+    const { createElement: h } = React;
+
+    const appointments = [
+      {
+        id: "1",
+        clientName: "Ana Silva",
+        service: "Consulta inicial",
+        date: "2026-07-08",
+        time: "14:30",
+      },
+      {
+        id: "2",
+        clientName: "Bruno Costa",
+        service: "Retorno",
+        date: "2026-07-09",
+        time: "10:00",
+      },
+      {
+        id: "3",
+        clientName: "Carla Mendes",
+        service: "Avaliação",
+        date: "2026-07-10",
+        time: "16:00",
+      },
+    ];
+
+    function formatDateTime(date, time) {
+      const [year, month, day] = date.split("-");
+      return `${day}/${month}/${year} às ${time}`;
+    }
+
+    function AppointmentCard({ clientName, service, date, time }) {
+      return (
+        <article className="appointment-card">
+          <h2 className="client-name">{clientName}</h2>
+          <p className="service">{service}</p>
+          <p className="datetime">
+            <time dateTime={`${date}T${time}`}>
+              {formatDateTime(date, time)}
+            </time>
+          </p>
+        </article>
+      );
+    }
+
+    function App() {
+      return (
+        <>
+          {appointments.map((appointment) => (
+            <AppointmentCard key={appointment.id} {...appointment} />
+          ))}
+        </>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
