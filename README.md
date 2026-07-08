@@ -53,9 +53,9 @@ npm run dev
 └── obejtivo.md  # Documento original da mentoria
 ```
 
-## Roadmap
+## Roadmap interno
 
-Para decisões de arquitetura e módulos futuros, veja a branch `docs/planejamento` e [`docs/PLANEJAMENTO.md`](docs/PLANEJAMENTO.md) (disponível nessa branch).
+Decisões de arquitetura e próximas features ficam na branch `docs/planejamento` ([`docs/PLANEJAMENTO.md`](docs/PLANEJAMENTO.md)) — **referência da mentoria**, não material para alunos.
 
 **Próximos módulos planejados:**
 
