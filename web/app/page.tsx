@@ -1,13 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { AppointmentCard } from "@/components/AppointmentCard";
-import { mockAppointments } from "@/lib/mock-appointments";
+import { AppointmentList } from "@/components/AppointmentList";
+import { useAppointments } from "@/hooks/useAppointments";
 import type { Appointment } from "@/types/appointment";
 
 export default function Home() {
-  const [appointments, setAppointments] =
-    useState<Appointment[]>(mockAppointments);
+  const { appointments, addAppointment } = useAppointments();
 
   function handleAddAppointment() {
     const newAppointment: Appointment = {
@@ -16,10 +14,10 @@ export default function Home() {
       service: "Consulta",
       date: "2026-07-15",
       time: "09:00",
-      notes: "Agendamento adicionado via useState",
+      notes: "Agendamento adicionado via localStorage",
     };
 
-    setAppointments((prev) => [...prev, newAppointment]);
+    addAppointment(newAppointment);
   }
 
   return (
@@ -35,11 +33,7 @@ export default function Home() {
         </button>
       </header>
 
-      <section className="flex flex-col gap-4" aria-label="Lista de agendamentos">
-        {appointments.map((appointment) => (
-          <AppointmentCard key={appointment.id} {...appointment} />
-        ))}
-      </section>
+      <AppointmentList appointments={appointments} />
     </main>
   );
 }

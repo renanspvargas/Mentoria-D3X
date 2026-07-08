@@ -1,20 +1,21 @@
-# Etapa 08 — Lista dinâmica com useState
+# Etapa 09 — localStorage e componentização
 
 ## Problema
 
-A lista estática não reflete mudanças do usuário — o botão "Agendar" não faz nada. Precisamos de **estado** no React: quando os dados mudam, a interface re-renderiza automaticamente sem manipular o DOM manualmente.
+O estado some ao recarregar a página (F5). Além disso, a `page.tsx` concentra lista, estado e lógica de persistência — difícil de manter e testar.
 
 ## Solução
 
-Esta branch adiciona `"use client"` na `page.tsx` (necessário para hooks no App Router), `useState<Appointment[]>` inicializado com o mock, e um handler no botão "Agendar" que adiciona um agendamento hardcoded via `setAppointments`. Demonstra re-render automático ao mudar estado.
+Esta branch extrai persistência para `lib/storage.ts` (chave `agendamentos-d3x`), encapsula estado no hook `useAppointments` (carrega no `useEffect` com guard SSR, salva quando `appointments` muda) e renderiza a lista via `<AppointmentList />`. A página vira orquestrador fino.
 
-> **Nota:** `"use client"` marca o componente como Client Component — obrigatório para usar `useState`, `useEffect` e event handlers no Next.js App Router.
+> **Nota:** `localStorage` só é acessado dentro de `useEffect` — evita erro de hydration no Next.js.
 
 ## Arquivos principais
 
-- `app/page.tsx` — `"use client"`, `useState` e botão com `onClick`
-- `components/AppointmentCard.tsx` — sem alterações (recebe props do estado)
-- `lib/mock-appointments.ts` — valor inicial do estado
+- `hooks/useAppointments.ts` — estado + carregar/salvar no localStorage
+- `lib/storage.ts` — `loadAppointments()` / `saveAppointments()`
+- `components/AppointmentList.tsx` — `.map()` de `AppointmentCard`
+- `app/page.tsx` — usa hook + lista; botão hardcoded temporário
 
 ## Como rodar
 
@@ -24,20 +25,22 @@ npm install
 npm run dev
 ```
 
-Clique em "Agendar" — um novo card aparece na lista sem recarregar a página.
+Clique em "Agendar", recarregue a página (F5) — os dados persistem.
 
 ## Checkpoint
 
-- [ ] Clicar "Agendar" adiciona card "Novo Cliente" na lista
-- [ ] Lista atualiza instantaneamente (sem F5)
-- [ ] Estado reseta ao recarregar a página (persistência vem na feat/09)
+- [ ] Clicar "Agendar" adiciona card "Novo Cliente"
+- [ ] F5 mantém a lista (localStorage)
+- [ ] Pasta `vanilla/` removida (histórico preservado em feat/01–08)
 
 ## Próxima etapa
 
-`feat/09-next-localstorage` — persistir estado com `localStorage` ou hook customizado.
+`feat/10-next-modal` — formulário real no modal em vez do botão hardcoded.
 
-## Para o Next
+## Desafios extras
 
-- Modal com formulário na `feat/10`
-- Validação de campos na `feat/11`
-- O padrão `setAppointments(prev => [...prev, novo])` será usado no submit do modal
+Não implementados nesta etapa — explore por conta própria:
+
+- Excluir agendamento da lista
+- Editar agendamento existente
+- Filtrar lista por data

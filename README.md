@@ -1,6 +1,6 @@
 # Mentoria D3X — Sistema de Agendamentos
 
-Repositório de referência para a mentoria D3X: evolução progressiva de um sistema de agendamentos, do HTML/CSS estático até Next.js com estado.
+Repositório de referência para a mentoria D3X: evolução progressiva de um sistema de agendamentos, do HTML/CSS estático até Next.js com estado e persistência.
 
 ## Sobre o projeto
 
@@ -21,20 +21,24 @@ Cada branch contém **todo o código anterior + o tijolo novo**. Use `git checko
 | `feat/06-next-lista-estatica` | Lista estática no Next.js + Tailwind |
 | `feat/07-next-componente` | `AppointmentCard` tipado com TypeScript |
 | `feat/08-next-estado` | Lista dinâmica com `useState` |
+| `feat/09-next-localstorage` | localStorage + hook + componentização |
 
-**Planejadas (ciclo futuro):** `feat/09` localStorage no Next, `feat/10` modal, `feat/11` validação, `feat/12` calendário.
+**Planejadas (ciclo futuro):** `feat/10` modal, `feat/11` validação, `feat/12` calendário.
+
+> A pasta `vanilla/` existia nas branches `feat/01`–`feat/08`. A partir da `feat/09` o repositório contém apenas `web/`. Para ver o código vanilla: `git checkout feat/01-html-css-estatico` … `feat/08-next-estado`.
 
 ## Como usar (alunos)
 
 1. Clone este repositório ou crie o seu próprio no GitHub seguindo as mesmas branches.
 2. `git checkout feat/01-html-css-estatico` (ou qualquer branch da tabela).
 3. Leia o `README.md` da pasta da etapa (`vanilla/` ou `web/`).
-4. Compare branches com `git diff feat/01-html-css-estatico..feat/02-js-modal-abrir`.
+4. Compare branches com `git diff feat/08-next-estado..feat/09-next-localstorage`.
 
 ## Estrutura
 
 ```
-├── vanilla/     # HTML, CSS e JS puro (feat/01–05)
-├── web/         # Projeto Next.js (feat/06–08)
+├── web/         # Projeto Next.js (feat/06+)
 └── obejtivo.md  # Documento original da mentoria
 ```
+
+Para o roadmap completo, veja a branch `docs/planejamento` e `docs/PLANEJAMENTO.md`.
