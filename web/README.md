@@ -1,21 +1,18 @@
-# Etapa 09 — localStorage e componentização
+# Etapa 10 — Modal de agendamento
 
 ## Problema
 
-O estado some ao recarregar a página (F5). Além disso, a `page.tsx` concentra lista, estado e lógica de persistência — difícil de manter e testar.
+Adicionar via botão com dados hardcoded não é UX real — o usuário precisa preencher nome, serviço, data, horário e observações.
 
 ## Solução
 
-Esta branch extrai persistência para `lib/storage.ts` (chave `agendamentos-d3x`), encapsula estado no hook `useAppointments` (carrega no `useEffect` com guard SSR, salva quando `appointments` muda) e renderiza a lista via `<AppointmentList />`. A página vira orquestrador fino.
-
-> **Nota:** `localStorage` só é acessado dentro de `useEffect` — evita erro de hydration no Next.js.
+Esta branch cria `AppointmentModal` com `<dialog>` nativo (`showModal()` / `close()`), formulário controlado com `useState`, e submit que monta `Appointment` com `crypto.randomUUID()` e chama `addAppointment` do hook. A `page.tsx` remove o handler hardcoded.
 
 ## Arquivos principais
 
-- `hooks/useAppointments.ts` — estado + carregar/salvar no localStorage
-- `lib/storage.ts` — `loadAppointments()` / `saveAppointments()`
-- `components/AppointmentList.tsx` — `.map()` de `AppointmentCard`
-- `app/page.tsx` — usa hook + lista; botão hardcoded temporário
+- `components/AppointmentModal.tsx` — dialog nativo + formulário
+- `app/page.tsx` — botão "Agendar" abre modal via componente
+- `hooks/useAppointments.ts` — `addAppointment()` chamado no submit
 
 ## Como rodar
 
@@ -25,21 +22,20 @@ npm install
 npm run dev
 ```
 
-Clique em "Agendar", recarregue a página (F5) — os dados persistem.
+Clique em "Agendar", preencha o formulário e salve — card aparece e persiste (feat/09).
 
 ## Checkpoint
 
-- [ ] Clicar "Agendar" adiciona card "Novo Cliente"
-- [ ] F5 mantém a lista (localStorage)
-- [ ] Pasta `vanilla/` removida (histórico preservado em feat/01–08)
+- [ ] Modal abre ao clicar "Agendar"
+- [ ] Preencher e salvar adiciona card na lista
+- [ ] F5 mantém o agendamento (localStorage da feat/09)
+- [ ] Cancelar ou ✕ fecha o modal sem salvar
 
 ## Próxima etapa
 
-`feat/10-next-modal` — formulário real no modal em vez do botão hardcoded.
+`feat/11-next-validacao` — validar campos obrigatórios antes de salvar.
 
 ## Desafios extras
-
-Não implementados nesta etapa — explore por conta própria:
 
 - Excluir agendamento da lista
 - Editar agendamento existente
