@@ -1,95 +1,87 @@
-# Planejamento — Trilha Mentoria D3X
+# Notas internas — Mentoria D3X
 
-Documento consolidado com decisões de arquitetura, roadmap e convenções do projeto.
+Branch `docs/planejamento` — referência interna da mentoria.
 
-## Visão geral
+> **Uso:** registrar decisões e próximos passos discutidos. **Não é material para alunos.** Instruções públicas ficam no `README.md` da `main` e nos READMEs de cada branch de código.
 
-Sistema de **agendamentos** para profissionais (clínicas, escritórios, etc.). Este repositório é a **referência da mentoria**; os alunos podem clonar e seguir as branches como máquina do tempo, ou criar repositório próprio espelhando a mesma estrutura.
+---
 
-## Frontend — Trilha feat/01–12
+## Metodologia das aulas
 
-| Módulo | Branch | Foco |
-|--------|--------|------|
-| 01 | `feat/01-html-css-estatico` | HTML/CSS estático |
-| 02 | `feat/02-js-modal-abrir` | Modal com JS |
-| 03 | `feat/03-js-lista-dinamica` | Lista dinâmica |
-| 04 | `feat/04-js-localstorage` | localStorage (vanilla) |
-| 05 | `feat/05-react-conceito` | React via CDN |
-| 06 | `feat/06-next-lista-estatica` | Next.js lista estática |
-| 07 | `feat/07-next-componente` | AppointmentCard tipado |
-| 08 | `feat/08-next-estado` | useState dinâmico |
-| 09 | `feat/09-next-localstorage` | localStorage + hook + componentização |
-| 10 | `feat/10-next-modal` | Modal com formulário |
-| 11 | `feat/11-next-validacao` | Validação de campos |
-| 12 | `feat/12-next-calendario` | react-day-picker |
+- Formato **problema → solução** em cada etapa.
+- Branches lineares como **máquina do tempo** (1 tijolo por branch, ~15–25 min ao vivo).
+- Aula flui rápido: mostrar branch pronta, explicar diff, reimplementar só o trecho central.
+- Tarefas para casa são opcionais, conforme andamento da turma.
+- React nas etapas iniciais: **mínimo possível** (ponte conceitual, sem projeto React separado).
 
-**Foco atual:** feat/09–12 (localStorage, componentização, modal, validação, calendário).
+## Dois modelos de Git
 
-## Remoção do vanilla
+| | Repo de referência (nosso) | Repo dos alunos |
+|--|---------------------------|-----------------|
+| Propósito | Material consultável por branch | Prática real |
+| Fluxo | Branches lineares, sem merge obrigatório na `main` | `main` + feature branches + PR quando fizer sentido |
+| Orientação | `git checkout feat/XX` para ver cada etapa | Subir no GitHub para revisão de dúvidas |
 
-A pasta `vanilla/` é **removida na feat/09**. Branches `feat/01`–`feat/08` preservam o histórico — alunos acessam com `git checkout feat/01-html-css-estatico` … `feat/08-next-estado`.
+## Decisões de estrutura (frontend)
 
-A partir da feat/09, o repositório contém apenas `web/` (Next.js).
+- **`vanilla/` removido na `feat/09`** — código já convertido para Next; histórico preservado em `feat/01`–`feat/08`.
+- Projeto Next permanece em **`web/`** (não mover para raiz por enquanto).
+- **`feat/09`–`12` implementadas** — localStorage, componentização, modal, validação, calendário (`react-day-picker`).
+- Prioridade didática na aula: **localStorage + componentização** (`useAppointments`, componentes extraídos).
+- `feat/10`–`12` servem como material pronto para aluno avançado explorar sozinho.
+- Desafios extras **documentados, não implementados**: excluir, editar, filtrar por data.
 
-## Componentização
+## Componentização (padrão adotado)
 
-- **Hooks** (`useAppointments`) encapsulam estado e persistência.
-- **Componentes** (`AppointmentList`, `AppointmentCard`, `AppointmentModal`) isolam UI.
-- **`page.tsx`** é orquestrador fino — conecta hook, lista e modal.
+- `page.tsx` = orquestrador fino
+- Hooks encapsulam estado e persistência (`useAppointments`)
+- Componentes isolam UI (`AppointmentCard`, `AppointmentList`, `AppointmentModal`)
+- `lib/` para storage, validação, mocks
+- TypeScript desde o início (Next defaults); demo JS→TS só se fizer sentido, sem aprofundar
 
-## Backend (futuro)
+## Backend — decisões (futuro)
 
-- **Repo separado** com NestJS.
-- **Sem** Next.js API Routes — API e frontend desacoplados.
-- **Numeração alinhada:** módulo N no web = mesmo conceito no backend (API inicia ~módulo 10).
+- **NestJS em repositório separado** — não usar Next.js API Routes como backend principal.
+- **Numeração alinhada:** módulo N = mesmo número em web e API (API pode iniciar na ~10).
+- Evolução gradual, como no front:
+  1. API em memória
+  2. Persistência simples (SQL direto ou arquivo)
+  3. Prisma + migrations
+- **`Appointment`** copiado entre web e API até Prisma virar fonte da verdade.
+- **Docker Compose:** apenas Postgres local para testes — não containerizar web/api nesta fase.
+- Deploy: **só local** por agora; no fim da trilha, guiar para **VPS** (provavelmente Docker Compose completo).
 
-## Persistência backend (gradual)
+## Próximas features — web (a implementar)
 
-1. Sem ORM — SQL direto ou arquivo
-2. Prisma + migrations (quando fizer sentido)
+| Módulo | Branch sugerida | Notas |
+|--------|-----------------|-------|
+| 13 | `feat/13-next-rotas` | App Router, múltiplas páginas, `Link` |
+| 14 | `feat/14-next-layout` | Nav/header compartilhado no `layout.tsx` |
+| 15 | `feat/15-next-dashboard` | Métricas básicas (total, do dia); preparar campo `status` para no-show futuro |
+| 16 | `feat/16-next-area-privada` | Auth simples (token/senha) antes de auth real |
+| 17 | `feat/17-next-crud` | Editar/excluir — pode ser desafio do aluno avançado |
+| 18 | `feat/18-consome-api` | `fetch` para NestJS; `.env.example` com `NEXT_PUBLIC_API_URL` |
 
-## Docker
+## Próximas features — API (repo separado, a criar)
 
-`docker-compose` **apenas** para Postgres local. Não containeriza web nem API nesta fase.
+| Módulo | Branch sugerida | Notas |
+|--------|-----------------|-------|
+| 10 | `feat/10-api-hello` | Health check, estrutura NestJS |
+| 11 | `feat/11-api-crud-memoria` | CRUD appointments em array |
+| 12 | `feat/12-api-persistencia` | SQL/arquivo, sem ORM |
+| 13 | `feat/13-api-cors` | CORS explícito para web local |
+| 14 | `feat/14-api-prisma` | Schema + primeira migration |
+| 15 | `feat/15-api-docker` | `docker-compose.yml` só Postgres |
 
-## Deploy
+## Convenções mantidas
 
-- **Agora:** desenvolvimento local (`npm run dev`).
-- **Futuro:** VPS + Docker Compose no fim da trilha.
+- Commits: `feat(XX): descrição` em português
+- README por branch em `web/README.md` (template: Problema, Solução, Arquivos, Como rodar, Checkpoint, Próxima etapa)
+- Erros comuns no README: só adicionar quando aparecerem na turma
+- Portas locais sugeridas: web `3000`, api `3001`
 
-## Contrato de dados
+## Pendências / lembretes
 
-O tipo `Appointment` em `web/types/appointment.ts` será espelhado na API futuramente:
-
-```ts
-type Appointment = {
-  id: string;
-  clientName: string;
-  service: string;
-  date: string;      // YYYY-MM-DD
-  time: string;      // HH:MM
-  notes?: string;
-};
-```
-
-## Módulos planejados (web 13+ / API 10+)
-
-| Módulo | Web | API |
-|--------|-----|-----|
-| 13 | Rotas (App Router) | — |
-| 14 | Dashboard / métricas | Endpoints CRUD |
-| 15 | Área privada / auth | JWT / guards |
-| 10+ | — | NestJS módulos alinhados |
-
-## Aula atual — prioridades
-
-1. **feat/09** — prioridade da aula: localStorage + componentização.
-2. **feat/10–12** — material de exploração autônoma (modal, validação, calendário).
-
-## Desafios extras (não implementados)
-
-Documentados nos READMEs para os alunos explorarem:
-
-- Excluir agendamento
-- Editar agendamento existente
-- Filtrar lista por data
+- [ ] Criar repo `mentoria-d3x-api` quando iniciar backend
+- [ ] Atualizar `obejtivo.md` quando fechar próximo ciclo
+- [ ] Tabela web↔API nos READMEs quando API existir (evitar branches incompatíveis)
