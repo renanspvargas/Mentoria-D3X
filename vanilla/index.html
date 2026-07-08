@@ -13,35 +13,13 @@
       <button type="button" id="btn-open-modal" class="btn-primary">Agendar</button>
     </header>
 
-    <section class="appointments-list" aria-label="Lista de agendamentos">
-      <article class="appointment-card">
-        <h2 class="client-name">Ana Silva</h2>
-        <p class="service">Consulta inicial</p>
-        <p class="datetime">
-          <time datetime="2026-07-08T14:30">08/07/2026 às 14:30</time>
-        </p>
-      </article>
-
-      <article class="appointment-card">
-        <h2 class="client-name">Bruno Costa</h2>
-        <p class="service">Retorno</p>
-        <p class="datetime">
-          <time datetime="2026-07-09T10:00">09/07/2026 às 10:00</time>
-        </p>
-      </article>
-
-      <article class="appointment-card">
-        <h2 class="client-name">Carla Mendes</h2>
-        <p class="service">Avaliação</p>
-        <p class="datetime">
-          <time datetime="2026-07-10T16:00">10/07/2026 às 16:00</time>
-        </p>
-      </article>
+    <section id="appointments-list" class="appointments-list" aria-label="Lista de agendamentos">
+      <!-- Cards renderizados via JavaScript -->
     </section>
   </main>
 
   <dialog id="appointment-modal" class="modal">
-    <form method="dialog" class="modal-content">
+    <form id="appointment-form" class="modal-content">
       <header class="modal-header">
         <h2>Novo agendamento</h2>
         <button type="button" id="btn-close-modal" class="btn-close" aria-label="Fechar">&times;</button>

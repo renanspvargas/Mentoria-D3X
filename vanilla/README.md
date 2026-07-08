@@ -1,35 +1,35 @@
-# Etapa 02 — Modal com JavaScript
+# Etapa 03 — Lista dinâmica com JavaScript
 
 ## Problema
 
-O site ainda é estático: o botão "Agendar" não faz nada. Para dar o primeiro passo de interatividade, precisamos responder a eventos do usuário (clique) e manipular elementos da página — neste caso, abrir e fechar um formulário em modal.
+Gerenciar muitos elementos com `getElementById` individual vira bagunça — cada card novo exigiria referências separadas no HTML. Além disso, o modal abre mas não salva nada: precisamos de uma fonte de dados em memória e uma função que redesenha a lista inteira.
 
 ## Solução
 
-Esta branch adiciona um `<dialog>` com formulário (nome, serviço, data, horário, observações) e o arquivo `app.js` com funções `openModal()` e `closeModal()` ligadas aos botões "Agendar", "Fechar" e "Cancelar". O submit ainda não salva dados.
+Esta branch introduz um array `appointments` em memória, remove os cards duplicados do HTML e centraliza a renderização em `renderAppointments()`. Ao submeter o formulário, um novo objeto é criado, adicionado ao array, a lista é re-renderizada e o modal fecha.
 
 ## Arquivos principais
 
-- `index.html` — estrutura do modal e campos do formulário
-- `app.js` — event listeners para abrir/fechar o modal
-- `styles.css` — estilos do overlay, modal centralizado e formulário
+- `index.html` — container `#appointments-list` vazio; cards gerados pelo JS
+- `app.js` — array de dados, `renderAppointments()` e handler de submit
+- `styles.css` — estilos herdados das etapas anteriores
 
 ## Como rodar
 
-Abra `vanilla/index.html` no navegador. Clique em "Agendar" para abrir o modal.
+Abra `vanilla/index.html` no navegador. Clique em "Agendar", preencha o formulário e salve.
 
 ## Checkpoint
 
-- [ ] Clicar "Agendar" abre o modal com o formulário
-- [ ] Clicar "Cancelar", "×" ou fora do modal fecha o modal
-- [ ] Os 3 cards estáticos continuam visíveis na lista
+- [ ] Ao carregar, os 3 agendamentos mock aparecem na lista
+- [ ] Adicionar agendamento pelo modal cria um card novo sem editar HTML
+- [ ] Formulário limpa e modal fecha após salvar
 
 ## Próxima etapa
 
-`feat/03-js-lista-dinamica` — ao submeter o formulário, criar um novo card na lista via JavaScript.
+`feat/04-js-localstorage` — persistir agendamentos no `localStorage` para sobreviver ao F5.
 
 ## Para o Next
 
-- O modal será recriado com `<dialog>` nativo na `feat/10`
-- Event listeners viram handlers React (`onClick`)
-- O formulário controlado substituirá `getElementById` individual
+- O array `appointments` vira `useState` na `feat/08`
+- `renderAppointments()` com `.map()` é o equivalente ao JSX com componentes
+- `crypto.randomUUID()` para IDs será mantido no Next

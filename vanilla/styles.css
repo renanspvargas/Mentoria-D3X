@@ -78,6 +78,13 @@ body {
   color: #64748b;
 }
 
+.appointment-card .notes {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+  color: #94a3b8;
+  font-style: italic;
+}
+
 .btn-secondary {
   padding: 0.625rem 1.25rem;
   font-size: 1rem;
